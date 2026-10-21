@@ -15,6 +15,3 @@ dist/
 
 # logs
 npm-debug.log*
-
-# local preview
-.preview.html
