@@ -1,6 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
-import { formatDate, formatDateISO, readingTime } from '../utils/posts';
+import { categoryMeta, formatDate, formatDateISO, readingTime } from '../utils/posts';
 
 interface Props {
   post: CollectionEntry<'blog'>;
@@ -8,21 +8,41 @@ interface Props {
 
 const { post } = Astro.props;
 const minutes = readingTime(post.body);
+const category = categoryMeta(post.data.category);
+const coverStyle = post.data.cover
+  ? `background-image: linear-gradient(180deg, rgba(8, 12, 10, 0.08), rgba(8, 12, 10, 0.36)), url(${post.data.cover}); background-size: cover; background-position: center;`
+  : undefined;
 ---
 
-<article class="post-card">
+<article
+  class:list={[
+    'post-card',
+    category?.slug === 'life' && 'post-card--life',
+    post.data.cover && 'post-card--image',
+  ]}
+>
   <a class="post-card__link" href={`/blog/${post.id}/`}>
-    <time class="post-card__date" datetime={formatDateISO(post.data.pubDate)}>
-      {formatDate(post.data.pubDate)}
-    </time>
+    <div class="post-card__cover" style={coverStyle} aria-hidden="true">
+      <span class="post-card__cover-label">{post.data.category}</span>
+      <span class="post-card__cover-char">{post.data.category}</span>
+    </div>
 
     <div class="post-card__body">
+      <div class="post-card__meta">
+        <time datetime={formatDateISO(post.data.pubDate)}>
+          {formatDate(post.data.pubDate)}
+        </time>
+        <span class="dot" aria-hidden="true">·</span>
+        <span>{minutes} 分钟阅读</span>
+      </div>
+
       <h3>{post.data.title}</h3>
       <p>{post.data.description}</p>
-      <div class="post-card__meta">
-        <span class="badge">{post.data.category}</span>
-        <span class="dot">·</span>
-        <span>{minutes} 分钟阅读</span>
+
+      <div class="post-card__tags">
+        {post.data.tags.slice(0, 3).map((tag) => (
+          <span class="post-card__tag">{tag}</span>
+        ))}
       </div>
     </div>
   </a>
