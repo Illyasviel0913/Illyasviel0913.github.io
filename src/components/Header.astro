@@ -1,0 +1,93 @@
+---
+import { SITE } from '../consts';
+
+const path = Astro.url.pathname;
+
+function isActive(href: string) {
+  if (href === '/') return path === '/';
+  return path === href || path.startsWith(href);
+}
+---
+
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a class="brand" href="/">
+      <span class="brand__mark" aria-hidden="true">I</span>
+      <span>{SITE.title}</span>
+      <span class="brand__sub">{SITE.tagline}</span>
+    </a>
+
+    <nav class="nav" aria-label="主导航">
+      {
+        SITE.nav.map((item) => (
+          <a
+            href={item.href}
+            aria-current={isActive(item.href) ? 'page' : undefined}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+      <button
+        class="theme-toggle"
+        type="button"
+        data-theme-toggle
+        aria-label="切换主题"
+        title="切换主题"
+      >
+        <svg
+          class="icon-moon"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.8 6.8 0 0 0 9.8 9.8Z" />
+        </svg>
+        <svg
+          class="icon-sun"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          aria-hidden="true"
+        >
+          <circle cx="12" cy="12" r="4.2" />
+          <path
+            d="M12 2.5v2.2M12 19.3v2.2M4.2 4.2l1.6 1.6M18.2 18.2l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.2 19.8l1.6-1.6M18.2 5.8l1.6-1.6"
+          />
+        </svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<script is:inline>
+  document.addEventListener('click', function (event) {
+    var target = event.target;
+    if (!(target instanceof Element)) return;
+
+    var button = target.closest('[data-theme-toggle]');
+    if (!button) return;
+
+    var root = document.documentElement;
+    var next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+    root.dataset.theme = next;
+    button.setAttribute(
+      'aria-label',
+      next === 'dark' ? '切换到浅色模式' : '切换到深色模式',
+    );
+
+    try {
+      localStorage.setItem('theme', next);
+    } catch {}
+  });
+</script>

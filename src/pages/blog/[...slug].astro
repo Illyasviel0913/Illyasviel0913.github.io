@@ -1,0 +1,145 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { CATEGORIES, SITE } from '../../consts';
+import {
+  categoryMeta,
+  formatDate,
+  formatDateISO,
+  getPublishedPosts,
+  readingTime,
+} from '../../utils/posts';
+
+export async function getStaticPaths() {
+  const posts = await getPublishedPosts();
+
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const minutes = readingTime(post.body);
+const category = categoryMeta(post.data.category);
+const posts = await getPublishedPosts();
+const index = posts.findIndex((item) => item.id === post.id);
+const newer = index > 0 ? posts[index - 1] : undefined;
+const older = index < posts.length - 1 ? posts[index + 1] : undefined;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: post.data.title,
+  description: post.data.description,
+  datePublished: post.data.pubDate.toISOString(),
+  dateModified: (post.data.updatedDate ?? post.data.pubDate).toISOString(),
+  author: { '@type': 'Person', name: SITE.author },
+  publisher: { '@type': 'Person', name: SITE.author },
+  mainEntityOfPage: new URL(`/blog/${post.id}/`, SITE.url).toString(),
+};
+---
+
+<BaseLayout
+  title={post.data.title}
+  description={post.data.description}
+  type="article"
+  publishedTime={post.data.pubDate}
+  modifiedTime={post.data.updatedDate}
+>
+  <div class="progress" aria-hidden="true" data-reading-progress></div>
+
+  <article class="post container--narrow">
+    <header>
+      <div class="post__meta">
+        <time datetime={formatDateISO(post.data.pubDate)}>
+          {formatDate(post.data.pubDate)}
+        </time>
+        <span class="dot">·</span>
+        <span>{minutes} 分钟阅读</span>
+        {
+          post.data.updatedDate && (
+            <>
+              <span class="dot">·</span>
+              <span>更新于 {formatDate(post.data.updatedDate)}</span>
+            </>
+          )
+        }
+      </div>
+
+      <h1 class="post__title">{post.data.title}</h1>
+      <p class="post__description">{post.data.description}</p>
+
+      <div class="post__tags">
+        {
+          category && (
+            <a class="tag" href={`/categories/${category.slug}/`}>
+              {post.data.category}
+            </a>
+          )
+        }
+        {
+          post.data.tags.map((tag) => (
+            <a class="tag" href={`/tags/${tag}/`}>
+              #{tag}
+            </a>
+          ))
+        }
+      </div>
+    </header>
+
+    <div class="prose">
+      <Content />
+    </div>
+
+    <nav class="post-nav" aria-label="文章导航">
+      {
+        newer ? (
+          <a href={`/blog/${newer.id}/`}>
+            <span>上一篇</span>
+            <strong>{newer.data.title}</strong>
+          </a>
+        ) : (
+          <a href="/blog/">
+            <span>回到</span>
+            <strong>全部文章</strong>
+          </a>
+        )
+      }
+      {
+        older ? (
+          <a href={`/blog/${older.id}/`}>
+            <span>下一篇</span>
+            <strong>{older.data.title}</strong>
+          </a>
+        ) : (
+          <a href="/about/">
+            <span>继续</span>
+            <strong>关于我</strong>
+          </a>
+        )
+      }
+    </nav>
+  </article>
+
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+  <script is:inline>
+    (() => {
+      var bar = document.querySelector('[data-reading-progress]');
+      if (!bar) return;
+
+      var update = function () {
+        var doc = document.documentElement;
+        var total = doc.scrollHeight - doc.clientHeight;
+        var progress = total > 0 ? doc.scrollTop / total : 0;
+        bar.style.width = (progress * 100).toFixed(2) + '%';
+      };
+
+      update();
+      document.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update);
+    })();
+  </script>
+</BaseLayout>

@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+import { CATEGORIES } from '../../consts';
+import { getPublishedPosts } from '../../utils/posts';
+
+const posts = await getPublishedPosts();
+---
+
+<BaseLayout
+  title="文章"
+  description="所有技术笔记与生活随笔。"
+>
+  <div class="container">
+    <header class="page-header">
+      <h1>文章</h1>
+      <p>技术笔记、学习记录，以及一些生活里的碎片。按时间倒序排列。</p>
+    </header>
+
+    <div class="filter-bar" aria-label="按分类筛选">
+      <a class="chip chip--active" href="/blog/">全部</a>
+      {
+        CATEGORIES.map((category) => (
+          <a class="chip" href={`/categories/${category.slug}/`}>
+            {category.name}
+          </a>
+        ))
+      }
+    </div>
+
+    <div class="post-list">
+      {posts.map((post) => <PostCard post={post} />)}
+    </div>
+  </div>
+</BaseLayout>

@@ -1,0 +1,102 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PostCard from '../components/PostCard.astro';
+import { CATEGORIES, SITE } from '../consts';
+import { getPublishedPosts } from '../utils/posts';
+
+const posts = await getPublishedPosts();
+const latest = posts.slice(0, 5);
+const counts = Object.fromEntries(
+  CATEGORIES.map((category) => [
+    category.name,
+    posts.filter((post) => post.data.category === category.name).length,
+  ]),
+);
+---
+
+<BaseLayout>
+  <div class="container">
+    <section class="hero">
+      <div>
+        <p class="hero__eyebrow">Tech · Life · Notes</p>
+        <h1>写代码，<br />也记录<em>生活</em>。</h1>
+        <p class="hero__lead">
+          我是 {SITE.author}。这里放我的技术学习、项目笔记，以及一些不想让它们消失的生活片段。
+        </p>
+        <div class="hero__actions">
+          <a class="button" href="/blog/">读文章</a>
+          <a class="button button--ghost" href="/about/">关于我</a>
+        </div>
+      </div>
+
+      <aside class="hero__aside" aria-label="博客内容">
+        <p class="hero__aside-title">这里有什么</p>
+        <ul class="hero__list">
+          <li>
+            <span>01</span>
+            <div>
+              <strong>技术笔记</strong>
+              <small>工程实践、工具使用与踩坑记录</small>
+            </div>
+          </li>
+          <li>
+            <span>02</span>
+            <div>
+              <strong>生活随笔</strong>
+              <small>日常、阅读、行走，和一些瞬间</small>
+            </div>
+          </li>
+          <li>
+            <span>03</span>
+            <div>
+              <strong>学习记录</strong>
+              <small>正在学的东西，以及学习的方法</small>
+            </div>
+          </li>
+        </ul>
+      </aside>
+    </section>
+
+    <section class="section" aria-labelledby="latest-title">
+      <div class="section__head">
+        <h2 class="section__title" id="latest-title">最近文章</h2>
+        <a class="section__link" href="/blog/">全部文章 →</a>
+      </div>
+
+      <div class="post-list">
+        {latest.map((post) => <PostCard post={post} />)}
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="categories-title">
+      <div class="section__head">
+        <h2 class="section__title" id="categories-title">分类</h2>
+        <a class="section__link" href="/tags/">按标签浏览 →</a>
+      </div>
+
+      <div class="category-grid">
+        {
+          CATEGORIES.map((category) => (
+            <a class="category-card" href={`/categories/${category.slug}/`}>
+              <span class="category-card__count">
+                {counts[category.name] ?? 0} 篇
+              </span>
+              <h3>{category.name}</h3>
+              <p>{category.description}</p>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="section" aria-label="订阅">
+      <div class="rss-strip">
+        <p>
+          <strong>不想错过更新？</strong>
+          用 RSS 阅读器订阅，干干净净，没有算法。
+        </p>
+        <a href="/rss.xml">订阅 RSS →</a>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
