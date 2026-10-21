@@ -1,0 +1,650 @@
+---
+import { SITE } from '../consts';
+
+const bannerChars = 'TAFFY'.split('');
+---
+
+<section class="home-intro" aria-labelledby="intro-name">
+  <div class="home-intro__bg" aria-hidden="true"></div>
+  <div class="home-intro__grid" aria-hidden="true"></div>
+
+  <div class="home-intro__stage">
+    <div class="intro-banner" aria-hidden="true">
+      <span class="intro-line intro-line--top"></span>
+      <div class="intro-banner__chars">
+        {
+          bannerChars.map((char, index) => (
+            <span class="intro-char" style={`--i:${index}`}>
+              {char}
+            </span>
+          ))
+        }
+      </div>
+      <span class="intro-line intro-line--bottom"></span>
+    </div>
+
+    <div class="intro-profile">
+      <div class="intro-profile__avatar-wrap">
+        <span class="intro-burst" aria-hidden="true">
+          {
+            Array.from({ length: 8 }).map((_, index) => (
+              <span
+                class="intro-ray"
+                style={`--a:${index * 45}deg;--i:${index}`}
+              />
+            ))
+          }
+        </span>
+
+        <img
+          class="intro-profile__avatar"
+          src="/avatar.png"
+          alt={`${SITE.name} 的头像`}
+          width="112"
+          height="112"
+        />
+        <span class="intro-profile__status" title="在线">☁️</span>
+      </div>
+
+      <p class="intro-profile__eyebrow">Tech · Life · Notes</p>
+      <h1 class="intro-profile__name" id="intro-name">{SITE.name}</h1>
+      <p class="intro-profile__handle">@{SITE.handle}</p>
+      <p class="intro-profile__bio">
+        写代码，也记录生活。<br />
+        这里放技术学习、项目笔记，和一些生活片段。
+      </p>
+
+      <div class="intro-profile__social">
+        <a href={SITE.github} target="_blank" rel="noopener noreferrer">
+          GitHub
+        </a>
+        <span aria-hidden="true">·</span>
+        <a href="/rss.xml">RSS</a>
+        <span aria-hidden="true">·</span>
+        <a href="/tags/">标签</a>
+      </div>
+
+      <nav class="intro-profile__actions" aria-label="首页导航">
+        <a class="button" href="/blog/">读文章</a>
+        <a class="button button--ghost" href="/about/">关于我</a>
+      </nav>
+    </div>
+  </div>
+
+  <a class="intro-scroll" href="#latest" aria-label="Scroll 向下滚动到最近文章">
+    <span>Scroll</span>
+    <svg
+      width="14"
+      height="14"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <path d="m6 9 6 6 6-6" />
+    </svg>
+  </a>
+</section>
+
+<style>
+  .home-intro {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-height: calc(100svh - 68px);
+    overflow: hidden;
+    isolation: isolate;
+    background: var(--bg);
+  }
+
+  .home-intro__bg {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    background:
+      radial-gradient(
+        45% 55% at 28% 38%,
+        rgba(161, 196, 253, 0.58),
+        transparent 70%
+      ),
+      radial-gradient(
+        38% 45% at 78% 18%,
+        rgba(255, 199, 219, 0.42),
+        transparent 70%
+      ),
+      radial-gradient(
+        45% 45% at 82% 82%,
+        rgba(194, 233, 251, 0.52),
+        transparent 70%
+      ),
+      linear-gradient(180deg, #fbfaf7 0%, #f3f8fb 100%);
+    animation: bg-in 1.4s ease both;
+  }
+
+  :global([data-theme="dark"]) .home-intro__bg {
+    background:
+      radial-gradient(
+        45% 55% at 28% 38%,
+        rgba(45, 91, 120, 0.5),
+        transparent 70%
+      ),
+      radial-gradient(
+        38% 45% at 78% 18%,
+        rgba(92, 57, 86, 0.35),
+        transparent 70%
+      ),
+      radial-gradient(
+        45% 45% at 82% 82%,
+        rgba(38, 82, 80, 0.42),
+        transparent 70%
+      ),
+      linear-gradient(180deg, #0e1210 0%, #0c1418 100%);
+  }
+
+  .home-intro__grid {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image:
+      linear-gradient(
+        90deg,
+        color-mix(in srgb, var(--accent) 9%, transparent) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        color-mix(in srgb, var(--accent) 9%, transparent) 1px,
+        transparent 1px
+      );
+    background-size: 44px 44px;
+    mask-image: radial-gradient(
+      ellipse at 50% 45%,
+      black 15%,
+      black 35%,
+      transparent 75%
+    );
+    animation: grid-in 1.8s 0.15s ease both;
+  }
+
+  .home-intro__stage {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 100%;
+    min-height: inherit;
+    padding: 72px 24px 96px;
+  }
+
+  .intro-banner,
+  .intro-profile {
+    grid-area: 1 / 1;
+  }
+
+  /* The vertical type intro */
+  .intro-banner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    pointer-events: none;
+    animation: banner-out 0.42s 1.3s cubic-bezier(0.4, 0, 1, 1) both;
+  }
+
+  .intro-line {
+    display: block;
+    width: 1px;
+    height: 0;
+    background: var(--border-strong);
+  }
+
+  .intro-line--top {
+    animation: line-grow 0.6s 0.05s cubic-bezier(0.22, 1, 0.36, 1) both;
+    transform-origin: bottom;
+  }
+
+  .intro-line--bottom {
+    animation: line-grow 0.6s 0.05s cubic-bezier(0.22, 1, 0.36, 1) both;
+    transform-origin: top;
+  }
+
+  .intro-banner__chars {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 0;
+  }
+
+  .intro-char {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.2em;
+    height: 1.1em;
+    border-inline: 1px solid transparent;
+    color: var(--text);
+    font-family: var(--font-serif);
+    font-size: clamp(38px, 7.4vh, 70px);
+    font-weight: 700;
+    line-height: 1;
+    opacity: 0;
+    will-change: transform, opacity;
+  }
+
+  .intro-char:nth-child(odd) {
+    justify-content: flex-start;
+    border-left-color: var(--border-strong);
+    animation: char-in-left 0.48s calc(0.18s + var(--i) * 0.075s)
+      cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .intro-char:nth-child(even) {
+    justify-content: flex-end;
+    border-right-color: var(--border-strong);
+    animation: char-in-right 0.48s calc(0.18s + var(--i) * 0.075s)
+      cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  /* The personal profile that replaces it */
+  .intro-profile {
+    z-index: 2;
+    width: min(100%, 560px);
+    text-align: center;
+    opacity: 0;
+    transform: scale(0.94);
+    animation: profile-in 0.82s 1.48s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .intro-profile__avatar-wrap {
+    position: relative;
+    width: 112px;
+    height: 112px;
+    margin: 0 auto 22px;
+  }
+
+  .intro-profile__avatar-wrap::before {
+    content: "";
+    position: absolute;
+    inset: -20px;
+    z-index: -1;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      color-mix(in srgb, var(--accent) 30%, transparent),
+      transparent 70%
+    );
+    filter: blur(12px);
+    opacity: 0;
+    animation: glow-in 1.1s 1.65s ease both;
+  }
+
+  .intro-profile__avatar {
+    width: 100%;
+    height: 100%;
+    border: 4px solid var(--surface);
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 14px 50px rgba(31, 82, 57, 0.22);
+    opacity: 0;
+    transform: rotate(-6deg) translateY(20px);
+    animation: avatar-in 0.78s 1.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .intro-profile__status {
+    position: absolute;
+    right: 0;
+    bottom: 2px;
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    background: var(--surface);
+    box-shadow: var(--shadow-sm);
+    font-size: 13px;
+    line-height: 1;
+    opacity: 0;
+    animation: fade-in 0.4s 2.05s ease both;
+  }
+
+  .intro-burst {
+    position: absolute;
+    inset: -12px;
+    pointer-events: none;
+    opacity: 0;
+    animation: burst-fade 0.9s 1.52s ease both;
+  }
+
+  .intro-ray {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: block;
+    width: 1px;
+    height: 9px;
+    border-radius: 1px;
+    background: var(--accent);
+    opacity: 0;
+    transform-origin: 0 0;
+    transform: rotate(var(--a)) translateY(-56px) scaleY(0.4);
+    animation: ray-out 0.75s calc(1.5s + var(--i) * 0.018s) ease-out both;
+  }
+
+  .intro-profile__eyebrow {
+    margin: 0 0 10px;
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    opacity: 0;
+    animation: rise-in 0.6s 1.62s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .intro-profile__name {
+    margin: 0 0 4px;
+    font-family: var(--font-serif);
+    font-size: clamp(52px, 8vw, 82px);
+    font-weight: 700;
+    letter-spacing: -0.05em;
+    line-height: 1;
+    opacity: 0;
+    animation: rise-in 0.68s 1.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .intro-profile__handle {
+    margin: 0;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    opacity: 0;
+    animation: rise-in 0.6s 1.78s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .intro-profile__bio {
+    max-width: 30em;
+    margin: 18px auto 0;
+    color: var(--text-soft);
+    font-size: 15.5px;
+    line-height: 1.85;
+    opacity: 0;
+    animation: rise-in 0.66s 1.86s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .intro-profile__social {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 18px;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    opacity: 0;
+    animation: rise-in 0.6s 1.94s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .intro-profile__social a {
+    color: var(--text-soft);
+    text-underline-offset: 4px;
+    transition: color 0.16s ease;
+  }
+
+  .intro-profile__social a:hover {
+    color: var(--accent);
+    text-decoration: underline;
+  }
+
+  .intro-profile__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 24px;
+    opacity: 0;
+    animation: rise-in 0.66s 2.02s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .intro-scroll {
+    position: absolute;
+    bottom: 22px;
+    left: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0;
+    transform: translateX(-50%);
+    animation: fade-in 0.6s 2.2s ease both;
+  }
+
+  .intro-scroll svg {
+    animation: scroll-bounce 2s ease-in-out infinite;
+  }
+
+  .intro-scroll:hover {
+    color: var(--accent);
+  }
+
+  @keyframes bg-in {
+    from {
+      opacity: 0;
+      transform: scale(1.02);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes grid-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes line-grow {
+    from {
+      height: 0;
+      opacity: 0;
+    }
+    to {
+      height: clamp(44px, 12vh, 108px);
+      opacity: 1;
+    }
+  }
+
+  @keyframes char-in-left {
+    from {
+      opacity: 0;
+      padding-left: 0;
+      transform: translateY(14px);
+    }
+    to {
+      opacity: 1;
+      padding-left: 0.6em;
+      transform: none;
+    }
+  }
+
+  @keyframes char-in-right {
+    from {
+      opacity: 0;
+      padding-right: 0;
+      transform: translateY(14px);
+    }
+    to {
+      opacity: 1;
+      padding-right: 0.6em;
+      transform: none;
+    }
+  }
+
+  @keyframes banner-out {
+    to {
+      opacity: 0;
+      transform: translateY(-18px) scale(0.98);
+      visibility: hidden;
+    }
+  }
+
+  @keyframes profile-in {
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes avatar-in {
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes glow-in {
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes burst-fade {
+    0% {
+      opacity: 0;
+    }
+    30% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes ray-out {
+    0% {
+      opacity: 0;
+      transform: rotate(var(--a)) translateY(-42px) scaleY(0.3);
+    }
+    30% {
+      opacity: 0.8;
+    }
+    100% {
+      opacity: 0;
+      transform: rotate(var(--a)) translateY(-78px) scaleY(1);
+    }
+  }
+
+  @keyframes rise-in {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes scroll-bounce {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(4px);
+    }
+  }
+
+  @media (max-width: 680px) {
+    .home-intro {
+      min-height: calc(100svh - 108px);
+    }
+
+    .home-intro__stage {
+      padding: 52px 20px 82px;
+    }
+
+    .intro-char {
+      font-size: clamp(34px, 6.6vh, 54px);
+    }
+
+    .intro-profile__avatar-wrap {
+      width: 96px;
+      height: 96px;
+      margin-bottom: 18px;
+    }
+
+    .intro-profile__name {
+      font-size: clamp(48px, 14vw, 68px);
+    }
+
+    .intro-profile__bio {
+      font-size: 14.5px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .home-intro__bg,
+    .home-intro__grid,
+    .intro-banner,
+    .intro-line,
+    .intro-char,
+    .intro-profile,
+    .intro-burst,
+    .intro-ray,
+    .intro-profile__avatar-wrap::before,
+    .intro-profile__avatar,
+    .intro-profile__status,
+    .intro-profile__eyebrow,
+    .intro-profile__name,
+    .intro-profile__handle,
+    .intro-profile__bio,
+    .intro-profile__social,
+    .intro-profile__actions,
+    .intro-scroll,
+    .intro-scroll svg {
+      animation: none !important;
+    }
+
+    .intro-banner {
+      display: none;
+    }
+
+    .intro-profile,
+    .intro-profile__avatar,
+    .intro-profile__status,
+    .intro-profile__eyebrow,
+    .intro-profile__name,
+    .intro-profile__handle,
+    .intro-profile__bio,
+    .intro-profile__social,
+    .intro-profile__actions,
+    .intro-scroll {
+      opacity: 1;
+      transform: none;
+    }
+
+    .intro-burst {
+      display: none;
+    }
+  }
+</style>

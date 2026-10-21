@@ -1,5 +1,7 @@
 export const SITE = {
   title: 'Illyasviel',
+  name: 'Taffy',
+  handle: 'Illyasviel0913',
   tagline: '技术、学习与生活',
   description: '记录技术学习、项目笔记与生活片段。',
   author: 'Illyasviel',

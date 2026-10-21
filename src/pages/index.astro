@@ -1,7 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import HomeIntro from '../components/HomeIntro.astro';
 import PostCard from '../components/PostCard.astro';
-import { CATEGORIES, SITE } from '../consts';
+import { CATEGORIES } from '../consts';
 import { getPublishedPosts } from '../utils/posts';
 
 const posts = await getPublishedPosts();
@@ -15,49 +16,10 @@ const counts = Object.fromEntries(
 ---
 
 <BaseLayout>
+  <HomeIntro />
+
   <div class="container">
-    <section class="hero">
-      <div>
-        <p class="hero__eyebrow">Tech · Life · Notes</p>
-        <h1>写代码，<br />也记录<em>生活</em>。</h1>
-        <p class="hero__lead">
-          我是 {SITE.author}。这里放我的技术学习、项目笔记，以及一些不想让它们消失的生活片段。
-        </p>
-        <div class="hero__actions">
-          <a class="button" href="/blog/">读文章</a>
-          <a class="button button--ghost" href="/about/">关于我</a>
-        </div>
-      </div>
-
-      <aside class="hero__aside" aria-label="博客内容">
-        <p class="hero__aside-title">这里有什么</p>
-        <ul class="hero__list">
-          <li>
-            <span>01</span>
-            <div>
-              <strong>技术笔记</strong>
-              <small>工程实践、工具使用与踩坑记录</small>
-            </div>
-          </li>
-          <li>
-            <span>02</span>
-            <div>
-              <strong>生活随笔</strong>
-              <small>日常、阅读、行走，和一些瞬间</small>
-            </div>
-          </li>
-          <li>
-            <span>03</span>
-            <div>
-              <strong>学习记录</strong>
-              <small>正在学的东西，以及学习的方法</small>
-            </div>
-          </li>
-        </ul>
-      </aside>
-    </section>
-
-    <section class="section" aria-labelledby="latest-title">
+    <section class="section" id="latest" aria-labelledby="latest-title">
       <div class="section__head">
         <h2 class="section__title" id="latest-title">最近文章</h2>
         <a class="section__link" href="/blog/">全部文章 →</a>

@@ -129,6 +129,8 @@ DNS 生效后，在 Pages 设置里勾选 **Enforce HTTPS**。
 ## 常改的地方
 
 - 站点名称、简介、GitHub 链接：`src/consts.ts`
+- 首页入场动画、个人信息：`src/components/HomeIntro.astro`
+- 头像：`public/avatar.png`
 - 关于页自我介绍：`src/pages/about.astro`
 - 颜色、字体、间距：`src/styles/global.css`
 - 部署域名：`astro.config.mjs`
