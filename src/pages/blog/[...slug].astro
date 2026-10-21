@@ -1,7 +1,7 @@
 ---
 import { render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { CATEGORIES, SITE } from '../../consts';
+import { SITE } from '../../consts';
 import {
   categoryMeta,
   formatDate,
@@ -28,16 +28,26 @@ const index = posts.findIndex((item) => item.id === post.id);
 const newer = index > 0 ? posts[index - 1] : undefined;
 const older = index < posts.length - 1 ? posts[index + 1] : undefined;
 
+const lastUpdated = post.data.updatedDate ?? post.data.pubDate;
+const daysSinceUpdate = Math.floor(
+  (Date.now() - lastUpdated.valueOf()) / 86_400_000,
+);
+const showOutdated = daysSinceUpdate > 180;
+const coverStyle = post.data.cover
+  ? `background-image: linear-gradient(180deg, rgba(8, 12, 10, 0.2), rgba(8, 12, 10, 0.88)), url(${post.data.cover});`
+  : undefined;
+const postUrl = new URL(`/blog/${post.id}/`, SITE.url).toString();
+
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'BlogPosting',
   headline: post.data.title,
   description: post.data.description,
   datePublished: post.data.pubDate.toISOString(),
-  dateModified: (post.data.updatedDate ?? post.data.pubDate).toISOString(),
-  author: { '@type': 'Person', name: SITE.author },
-  publisher: { '@type': 'Person', name: SITE.author },
-  mainEntityOfPage: new URL(`/blog/${post.id}/`, SITE.url).toString(),
+  dateModified: lastUpdated.toISOString(),
+  author: { '@type': 'Person', name: SITE.name },
+  publisher: { '@type': 'Person', name: SITE.name },
+  mainEntityOfPage: postUrl,
 };
 ---
 
@@ -47,81 +57,130 @@ const jsonLd = {
   type="article"
   publishedTime={post.data.pubDate}
   modifiedTime={post.data.updatedDate}
+  category={post.data.category}
 >
   <div class="progress" aria-hidden="true" data-reading-progress></div>
 
-  <article class="post container--narrow">
-    <header>
-      <div class="post__meta">
-        <time datetime={formatDateISO(post.data.pubDate)}>
-          {formatDate(post.data.pubDate)}
-        </time>
-        <span class="dot">·</span>
-        <span>{minutes} 分钟阅读</span>
-        {
-          post.data.updatedDate && (
-            <>
-              <span class="dot">·</span>
-              <span>更新于 {formatDate(post.data.updatedDate)}</span>
-            </>
-          )
-        }
-      </div>
+  <div class="post-page">
+    <header
+      class:list={[
+        'post-hero',
+        category?.slug === 'life' ? 'post-hero--life' : 'post-hero--tech',
+        post.data.cover && 'post-hero--image',
+      ]}
+    >
+      <div class="post-hero__bg" style={coverStyle} aria-hidden="true"></div>
+      <span class="post-hero__watermark" aria-hidden="true">
+        {post.data.category}
+      </span>
 
-      <h1 class="post__title">{post.data.title}</h1>
-      <p class="post__description">{post.data.description}</p>
+      <div class="post-hero__inner">
+        <nav class="post-hero__crumbs" aria-label="面包屑">
+          <a href="/">首页</a>
+          <span aria-hidden="true">/</span>
+          <a href="/blog/">文章</a>
+          {
+            category && (
+              <>
+                <span aria-hidden="true">/</span>
+                <a href={`/categories/${category.slug}/`}>{post.data.category}</a>
+              </>
+            )
+          }
+        </nav>
 
-      <div class="post__tags">
-        {
-          category && (
-            <a class="tag" href={`/categories/${category.slug}/`}>
-              {post.data.category}
-            </a>
-          )
-        }
-        {
-          post.data.tags.map((tag) => (
-            <a class="tag" href={`/tags/${tag}/`}>
-              #{tag}
-            </a>
-          ))
-        }
+        <h1 class="post-hero__title">{post.data.title}</h1>
+        <p class="post-hero__description">{post.data.description}</p>
+
+        <div class="post-hero__meta">
+          <time datetime={formatDateISO(post.data.pubDate)}>
+            {formatDate(post.data.pubDate)}
+          </time>
+          {
+            post.data.updatedDate && (
+              <>
+                <span class="dot" aria-hidden="true">·</span>
+                <span>更新于 {formatDate(post.data.updatedDate)}</span>
+              </>
+            )
+          }
+          <span class="dot" aria-hidden="true">·</span>
+          <span>{minutes} 分钟阅读</span>
+        </div>
+
+        <div class="post-hero__tags">
+          {
+            category && (
+              <a class="post-hero__tag" href={`/categories/${category.slug}/`}>
+                {post.data.category}
+              </a>
+            )
+          }
+          {
+            post.data.tags.map((tag) => (
+              <a class="post-hero__tag" href={`/tags/${tag}/`}>
+                #{tag}
+              </a>
+            ))
+          }
+        </div>
       </div>
     </header>
 
-    <div class="prose">
-      <Content />
-    </div>
+    <div class="post-body">
+      <article class="post-card">
+        {
+          showOutdated && (
+            <div class="post-outdated">
+              <strong>这篇文章已经放了 {daysSinceUpdate} 天。</strong>
+              部分内容可能已经过时，请结合实际情况阅读。
+            </div>
+          )
+        }
 
-    <nav class="post-nav" aria-label="文章导航">
-      {
-        newer ? (
-          <a href={`/blog/${newer.id}/`}>
-            <span>上一篇</span>
-            <strong>{newer.data.title}</strong>
-          </a>
-        ) : (
-          <a href="/blog/">
-            <span>回到</span>
-            <strong>全部文章</strong>
-          </a>
-        )
-      }
-      {
-        older ? (
-          <a href={`/blog/${older.id}/`}>
-            <span>下一篇</span>
-            <strong>{older.data.title}</strong>
-          </a>
-        ) : (
-          <a href="/about/">
-            <span>继续</span>
-            <strong>关于我</strong>
-          </a>
-        )
-      }
-    </nav>
-  </article>
+        <div class="prose post-prose">
+          <Content />
+        </div>
+
+        <footer class="post-copyright">
+          <p>
+            <strong>本文作者：{SITE.name}</strong><br />
+            首发于 <a href={SITE.url}>{SITE.title}</a>，转载请注明出处。
+          </p>
+          <a href={postUrl}>本文链接 →</a>
+        </footer>
+      </article>
+
+      <nav class="container post-pagination" aria-label="文章导航">
+        {
+          newer ? (
+            <a href={`/blog/${newer.id}/`}>
+              <span>上一篇</span>
+              <strong>{newer.data.title}</strong>
+            </a>
+          ) : (
+            <a href="/blog/">
+              <span>回到</span>
+              <strong>全部文章</strong>
+            </a>
+          )
+        }
+        {
+          older ? (
+            <a href={`/blog/${older.id}/`}>
+              <span>下一篇</span>
+              <strong>{older.data.title}</strong>
+            </a>
+          ) : (
+            <a href="/about/">
+              <span>继续</span>
+              <strong>关于我</strong>
+            </a>
+          )
+        }
+      </nav>
+    </div>
+  </div>
 
   <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
@@ -140,6 +199,72 @@ const jsonLd = {
       update();
       document.addEventListener('scroll', update, { passive: true });
       window.addEventListener('resize', update);
+    })();
+  </script>
+
+  <script is:inline>
+    (() => {
+      var pres = document.querySelectorAll('.post-prose pre.astro-code');
+
+      pres.forEach(function (pre) {
+        var wrapper = document.createElement('div');
+        wrapper.className = 'code-block';
+
+        var bar = document.createElement('div');
+        bar.className = 'code-block__bar';
+
+        var lang = document.createElement('span');
+        lang.className = 'code-block__lang';
+        lang.textContent = pre.getAttribute('data-language') || 'text';
+
+        var copy = document.createElement('button');
+        copy.className = 'code-block__copy';
+        copy.type = 'button';
+        copy.textContent = '复制';
+
+        bar.appendChild(lang);
+        bar.appendChild(copy);
+
+        pre.parentNode.insertBefore(wrapper, pre);
+        wrapper.appendChild(bar);
+        wrapper.appendChild(pre);
+
+        copy.addEventListener('click', function () {
+          var text = pre.innerText;
+
+          var done = function (ok) {
+            copy.textContent = ok ? '已复制' : '复制失败';
+            window.setTimeout(function () {
+              copy.textContent = '复制';
+            }, 1600);
+          };
+
+          var fallback = function () {
+            try {
+              var area = document.createElement('textarea');
+              area.value = text;
+              area.style.position = 'fixed';
+              area.style.opacity = '0';
+              document.body.appendChild(area);
+              area.select();
+              document.execCommand('copy');
+              document.body.removeChild(area);
+              done(true);
+            } catch {
+              done(false);
+            }
+          };
+
+          if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(text).then(function () {
+              done(true);
+            }, fallback);
+            return;
+          }
+
+          fallback();
+        });
+      });
     })();
   </script>
 </BaseLayout>

@@ -44,6 +44,7 @@ pubDate: 2026-10-22
 # updatedDate: 2026-10-23  # 可选
 category: 技术              # 技术 / 生活
 tags: [astro, notes]        # 建议用英文小写，URL 更干净
+# cover: /images/xxx.jpg    # 可选：文章封面图（放到 public/ 下）
 draft: false                # true 时只在开发环境显示
 ---
 ```

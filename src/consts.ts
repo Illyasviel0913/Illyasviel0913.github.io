@@ -9,8 +9,9 @@ export const SITE = {
   github: 'https://github.com/Illyasviel0913',
   nav: [
     { href: '/', label: '首页' },
+    { href: '/categories/tech/', label: '技术' },
+    { href: '/categories/life/', label: '生活' },
     { href: '/blog/', label: '文章' },
-    { href: '/tags/', label: '标签' },
     { href: '/about/', label: '关于' },
   ],
 } as const;

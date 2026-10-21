@@ -14,6 +14,8 @@ const blog = defineCollection({
     updatedDate: z.coerce.date().optional(),
     category: z.enum(['技术', '生活']),
     tags: z.array(z.string()).default([]),
+    cover: z.string().optional(),
+    coverAlt: z.string().optional(),
     draft: z.boolean().default(false),
   }),
 });

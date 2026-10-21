@@ -12,6 +12,7 @@ interface Props {
   publishedTime?: Date;
   modifiedTime?: Date;
   noindex?: boolean;
+  category?: string;
 }
 
 const {
@@ -22,6 +23,7 @@ const {
   publishedTime,
   modifiedTime,
   noindex = false,
+  category,
 } = Astro.props;
 
 const site = Astro.site ?? new URL(SITE.url);
@@ -102,7 +104,7 @@ const pageTitle = title
 
   <body>
     <a class="skip-link" href="#main">跳到正文</a>
-    <Header />
+    <Header category={category} />
     <main id="main">
       <slot />
     </main>

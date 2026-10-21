@@ -1,10 +1,22 @@
 ---
 import { SITE } from '../consts';
 
+interface Props {
+  category?: string;
+}
+
+const { category } = Astro.props;
 const path = Astro.url.pathname;
 
 function isActive(href: string) {
   if (href === '/') return path === '/';
+  if (href === '/blog/') return path === '/blog/';
+  if (href === '/categories/tech/') {
+    return path.startsWith(href) || category === '技术';
+  }
+  if (href === '/categories/life/') {
+    return path.startsWith(href) || category === '生活';
+  }
   return path === href || path.startsWith(href);
 }
 ---
