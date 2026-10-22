@@ -4,9 +4,11 @@ import { categoryMeta, formatDate, formatDateISO, readingTime } from '../utils/p
 
 interface Props {
   post: CollectionEntry<'blog'>;
+  headingLevel?: 2 | 3;
 }
 
-const { post } = Astro.props;
+const { post, headingLevel = 3 } = Astro.props;
+const Heading = headingLevel === 2 ? 'h2' : 'h3';
 const minutes = readingTime(post.body);
 const category = categoryMeta(post.data.category);
 const coverStyle = post.data.cover
@@ -38,7 +40,7 @@ const coverStyle = post.data.cover
         <span>{minutes} 分钟阅读</span>
       </div>
 
-      <h3>{post.data.title}</h3>
+      <Heading class="post-card__title">{post.data.title}</Heading>
       <p>{post.data.description}</p>
 
       <div class="post-card__tags">

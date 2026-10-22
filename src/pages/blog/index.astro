@@ -29,7 +29,7 @@ const posts = await getPublishedPosts();
     </div>
 
     <div class="post-list">
-      {posts.map((post) => <PostCard post={post} />)}
+      {posts.map((post) => <PostCard post={post} headingLevel={2} />)}
     </div>
   </div>
 </BaseLayout>

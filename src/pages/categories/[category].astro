@@ -19,14 +19,27 @@ const posts = (await getPublishedPosts()).filter(
 
 <BaseLayout
   title={category.name}
-  description={`${category.description}共 ${posts.length} 篇。`}
+  description={`${category.description}共 ${posts.length} 条。`}
 >
-  <div class="container">
-    <header class="page-header">
-      <h1>{category.name}</h1>
-      <p>{category.description} 目前共 {posts.length} 篇。</p>
-    </header>
+  <header class:list={['category-hero', `category-hero--${category.slug}`]}>
+    <div class="category-hero__bg" aria-hidden="true"></div>
+    <span class="category-hero__char" aria-hidden="true">
+      {category.short}
+    </span>
 
+    <div class="category-hero__inner">
+      <p class="category-hero__eyebrow">MODULE / {category.slug.toUpperCase()}</p>
+      <h1>{category.name}</h1>
+      <p>{category.description}</p>
+      <div class="category-hero__meta">
+        <span>{posts.length} 条记录</span>
+        <span class="dot" aria-hidden="true">·</span>
+        <span>持续更新</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="container category-body">
     <div class="filter-bar" aria-label="按分类筛选">
       <a class="chip" href="/blog/">全部</a>
       {
@@ -46,7 +59,7 @@ const posts = (await getPublishedPosts()).filter(
     </div>
 
     <div class="post-list">
-      {posts.map((post) => <PostCard post={post} />)}
+      {posts.map((post) => <PostCard post={post} headingLevel={2} />)}
     </div>
   </div>
 </BaseLayout>

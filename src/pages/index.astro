@@ -2,54 +2,66 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import HomeIntro from '../components/HomeIntro.astro';
 import PostCard from '../components/PostCard.astro';
-import { CATEGORIES } from '../consts';
 import { getPublishedPosts } from '../utils/posts';
 
 const posts = await getPublishedPosts();
-const latest = posts.slice(0, 5);
-const counts = Object.fromEntries(
-  CATEGORIES.map((category) => [
-    category.name,
-    posts.filter((post) => post.data.category === category.name).length,
-  ]),
-);
+const latestLife = posts
+  .filter((post) => post.data.category === '生活动态')
+  .slice(0, 4);
+const latestStudy = posts
+  .filter((post) => post.data.category === '学习笔记')
+  .slice(0, 4);
 ---
 
 <BaseLayout>
   <HomeIntro />
 
   <div class="container">
-    <section class="section" id="latest" aria-labelledby="latest-title">
-      <div class="section__head">
-        <h2 class="section__title" id="latest-title">最近动态</h2>
-        <a class="section__link" href="/blog/">全部动态 →</a>
-      </div>
-
-      <div class="post-list">
-        {latest.map((post) => <PostCard post={post} />)}
-      </div>
-    </section>
-
-    <section class="section" aria-labelledby="categories-title">
-      <div class="section__head">
-        <h2 class="section__title" id="categories-title">模块</h2>
-        <a class="section__link" href="/tags/">按标签浏览 →</a>
-      </div>
-
-      <div class="category-grid">
-        {
-          CATEGORIES.map((category) => (
-            <a class="category-card" href={`/categories/${category.slug}/`}>
-              <span class="category-card__count">
-                {counts[category.name] ?? 0} 篇
-              </span>
-              <h3>{category.name}</h3>
-              <p>{category.description}</p>
+    {
+      latestLife.length > 0 && (
+        <section
+          class="section"
+          id="latest-life"
+          aria-labelledby="latest-life-title"
+        >
+          <div class="section__head">
+            <h2 class="section__title" id="latest-life-title">
+              最近动态
+            </h2>
+            <a class="section__link" href="/categories/life/">
+              全部动态 →
             </a>
-          ))
-        }
-      </div>
-    </section>
+          </div>
+
+          <div class="post-list">
+            {latestLife.map((post) => <PostCard post={post} />)}
+          </div>
+        </section>
+      )
+    }
+
+    {
+      latestStudy.length > 0 && (
+        <section
+          class="section"
+          id="latest-study"
+          aria-labelledby="latest-study-title"
+        >
+          <div class="section__head">
+            <h2 class="section__title" id="latest-study-title">
+              最近笔记
+            </h2>
+            <a class="section__link" href="/categories/study/">
+              全部笔记 →
+            </a>
+          </div>
+
+          <div class="post-list">
+            {latestStudy.map((post) => <PostCard post={post} />)}
+          </div>
+        </section>
+      )
+    }
 
     <section class="section" aria-label="订阅">
       <div class="rss-strip">
