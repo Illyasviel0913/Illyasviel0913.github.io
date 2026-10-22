@@ -23,6 +23,6 @@
   <text x="88" y="340" fill="#2b2548" font-family="Songti SC, Noto Serif CJK SC, serif" font-size="76" font-weight="700">写代码，也记录生活。</text>
   <text x="88" y="410" fill="#575079" font-family="PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30">学习笔记、生活动态，以及一些生活片段。</text>
   <line x1="88" y1="492" x2="1112" y2="492" stroke="#e8defb"/>
-  <text x="88" y="548" fill="#7a4de8" font-family="PingFang SC, Noto Sans CJK SC, sans-serif" font-size="26" font-weight="600">Illyasviel</text>
+  <text x="88" y="548" fill="#7a4de8" font-family="PingFang SC, Noto Sans CJK SC, sans-serif" font-size="26" font-weight="600">Taffy</text>
   <text x="1112" y="548" text-anchor="end" fill="#6d6689" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="20">STUDY · LIFE · NOTES</text>
 </svg>

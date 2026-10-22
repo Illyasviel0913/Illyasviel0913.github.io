@@ -23,8 +23,7 @@ function isActive(href: string) {
 <header class="site-header">
   <div class="site-header__inner">
     <a class="brand" href="/">
-      <span class="brand__mark" aria-hidden="true">I</span>
-      <span>{SITE.title}</span>
+      <span>{SITE.name}</span>
       <span class="brand__sub">{SITE.tagline}</span>
     </a>
 
@@ -131,27 +130,36 @@ function isActive(href: string) {
         'translateX(' + (rect.left - box.left) + 'px)';
     };
 
+    var navTimer = 0;
+
     items.forEach(function (item) {
-      item.addEventListener('mouseenter', function () {
-        moveTo(item, true);
-      });
-      item.addEventListener('focus', function () {
-        moveTo(item, true);
-      });
-      item.addEventListener('click', function () {
+      item.addEventListener('click', function (event) {
+        if (
+          event.metaKey ||
+          event.ctrlKey ||
+          event.shiftKey ||
+          event.altKey ||
+          event.button !== 0
+        ) {
+          return;
+        }
+
         active = item;
+        moveTo(item, true);
+        event.preventDefault();
+
+        window.clearTimeout(navTimer);
+        navTimer = window.setTimeout(function () {
+          window.location.href = item.href;
+        }, 220);
       });
-    });
-
-    links.addEventListener('mouseleave', function () {
-      moveTo(active, true);
-    });
-
-    links.addEventListener('focusout', function (event) {
-      if (!links.contains(event.relatedTarget)) moveTo(active, true);
     });
 
     window.addEventListener('resize', function () {
+      moveTo(active, false);
+    });
+
+    window.addEventListener('load', function () {
       moveTo(active, false);
     });
 

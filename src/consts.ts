@@ -1,10 +1,10 @@
 export const SITE = {
-  title: 'Illyasviel',
+  title: 'Taffy',
   name: 'Taffy',
   handle: 'Illyasviel0913',
   tagline: '学习、生活与记录',
   description: '记录学习笔记、生活动态与一些片段。',
-  author: 'Illyasviel',
+  author: 'Taffy',
   url: import.meta.env.SITE ?? 'https://illyasviel0913.github.io',
   github: 'https://github.com/Illyasviel0913',
   nav: [
