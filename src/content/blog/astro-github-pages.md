@@ -3,7 +3,7 @@ title: 用 Astro 和 GitHub Pages 搭一个安静的博客
 description: 从零搭一个 Markdown 驱动、push 即部署的个人站点。
 pubDate: 2026-10-20
 updatedDate: 2026-10-21
-category: 技术
+category: 学习笔记
 tags: [astro, github-pages, blog]
 ---
 
@@ -39,7 +39,7 @@ Frontmatter 里放标题、描述、日期、分类和标签：
 title: 你好，世界
 description: 开一个博客，给学习与生活留个存档。
 pubDate: 2026-10-22
-category: 生活
+category: 生活动态
 tags: [life, essay]
 ---
 ```

@@ -1,23 +1,28 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#fbfaf7"/>
-      <stop offset="1" stop-color="#eef3ee"/>
+      <stop offset="0" stop-color="#fff6ff"/>
+      <stop offset="0.55" stop-color="#f4f7ff"/>
+      <stop offset="1" stop-color="#eef9ff"/>
+    </linearGradient>
+    <linearGradient id="mark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ff8fbe"/>
+      <stop offset="1" stop-color="#7a4de8"/>
     </linearGradient>
     <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-      <path d="M40 0H0V40" fill="none" stroke="#2f6f4e" stroke-opacity=".07"/>
+      <path d="M40 0H0V40" fill="none" stroke="#7a4de8" stroke-opacity=".07"/>
     </pattern>
   </defs>
   <rect width="1200" height="630" fill="url(#bg)"/>
   <rect width="1200" height="630" fill="url(#grid)"/>
-  <circle cx="1080" cy="110" r="180" fill="#2f6f4e" fill-opacity=".08"/>
-  <circle cx="1080" cy="110" r="110" fill="#2f6f4e" fill-opacity=".08"/>
-  <rect x="88" y="86" width="56" height="56" rx="14" fill="#2f6f4e"/>
-  <path d="M105 101h22v6h-7v19h7v6h-22v-6h7v-19h-7z" fill="#fbfaf7"/>
-  <text x="88" y="228" fill="#2f6f4e" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="22" letter-spacing="4">TECH · LIFE · NOTES</text>
-  <text x="88" y="340" fill="#1e2a22" font-family="Songti SC, Noto Serif CJK SC, serif" font-size="76" font-weight="700">写代码，也记录生活。</text>
-  <text x="88" y="410" fill="#526057" font-family="PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30">技术学习、项目笔记，以及一些生活片段。</text>
-  <line x1="88" y1="492" x2="1112" y2="492" stroke="#c9d6cc"/>
-  <text x="88" y="548" fill="#2f6f4e" font-family="PingFang SC, Noto Sans CJK SC, sans-serif" font-size="26" font-weight="600">Illyasviel</text>
-  <text x="1112" y="548" text-anchor="end" fill="#7b877e" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="20">TECH · LIFE · NOTES</text>
+  <circle cx="1080" cy="110" r="180" fill="#ff8fbe" fill-opacity=".14"/>
+  <circle cx="1080" cy="110" r="110" fill="#6cc9ff" fill-opacity=".14"/>
+  <rect x="88" y="86" width="56" height="56" rx="16" fill="url(#mark)"/>
+  <path d="M105 101h22v6h-7v19h7v6h-22v-6h7v-19h-7z" fill="#ffffff"/>
+  <text x="88" y="228" fill="#7a4de8" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="22" letter-spacing="4">STUDY · LIFE · NOTES</text>
+  <text x="88" y="340" fill="#2b2548" font-family="Songti SC, Noto Serif CJK SC, serif" font-size="76" font-weight="700">写代码，也记录生活。</text>
+  <text x="88" y="410" fill="#575079" font-family="PingFang SC, Noto Sans CJK SC, sans-serif" font-size="30">学习笔记、生活动态，以及一些生活片段。</text>
+  <line x1="88" y1="492" x2="1112" y2="492" stroke="#e8defb"/>
+  <text x="88" y="548" fill="#7a4de8" font-family="PingFang SC, Noto Sans CJK SC, sans-serif" font-size="26" font-weight="600">Illyasviel</text>
+  <text x="1112" y="548" text-anchor="end" fill="#6d6689" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="20">STUDY · LIFE · NOTES</text>
 </svg>

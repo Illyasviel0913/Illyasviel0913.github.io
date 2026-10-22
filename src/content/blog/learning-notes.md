@@ -2,7 +2,7 @@
 title: 我如何记学习笔记
 description: 不追求漂亮的笔记本，只追求下次还能用。
 pubDate: 2026-10-18
-category: 技术
+category: 学习笔记
 tags: [notes, learning]
 ---
 

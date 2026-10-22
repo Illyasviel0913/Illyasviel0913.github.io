@@ -46,12 +46,12 @@ const bannerChars = 'TAFFY'.split('');
         <span class="intro-profile__status" title="在线">☁️</span>
       </div>
 
-      <p class="intro-profile__eyebrow">Tech · Life · Notes</p>
+      <p class="intro-profile__eyebrow">Study · Life · Notes</p>
       <h1 class="intro-profile__name" id="intro-name">{SITE.name}</h1>
       <p class="intro-profile__handle">@{SITE.handle}</p>
       <p class="intro-profile__bio">
         写代码，也记录生活。<br />
-        这里放技术学习、项目笔记，和一些生活片段。
+        这里放学习笔记、项目记录，和一些生活片段。
       </p>
 
       <div class="intro-profile__social">
@@ -65,13 +65,13 @@ const bannerChars = 'TAFFY'.split('');
       </div>
 
       <nav class="intro-profile__actions" aria-label="首页导航">
-        <a class="button" href="/blog/">读文章</a>
+        <a class="button" href="/blog/">看动态</a>
         <a class="button button--ghost" href="/about/">关于我</a>
       </nav>
     </div>
   </div>
 
-  <a class="intro-scroll" href="#latest" aria-label="Scroll 向下滚动到最近文章">
+  <a class="intro-scroll" href="#latest" aria-label="Scroll 向下滚动到最近动态">
     <span>Scroll</span>
     <svg
       width="14"
@@ -302,22 +302,22 @@ const bannerChars = 'TAFFY'.split('');
   .intro-profile {
     position: relative;
     z-index: 2;
-    width: min(100%, 600px);
-    padding: clamp(30px, 5vw, 48px) clamp(24px, 5vw, 54px);
-    overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.9);
-    border-radius: 32px;
-    background: linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.9),
-      rgba(255, 255, 255, 0.62)
+    width: min(100%, 560px);
+    padding: 24px clamp(20px, 5vw, 42px) 28px;
+    overflow: visible;
+    border: 0;
+    border-radius: 0;
+    background: radial-gradient(
+      ellipse at 50% 42%,
+      rgba(255, 255, 255, 0.94) 0%,
+      rgba(255, 255, 255, 0.68) 46%,
+      rgba(255, 255, 255, 0) 74%
     );
-    box-shadow: 0 30px 80px -40px rgba(124, 92, 255, 0.45),
-      inset 0 1px 0 rgba(255, 255, 255, 0.95);
+    box-shadow: none;
     text-align: center;
     opacity: 0;
     transform: scale(0.94);
-    backdrop-filter: blur(18px);
+    backdrop-filter: none;
     animation: profile-in 0.82s 1.48s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
 
@@ -341,15 +341,15 @@ const bannerChars = 'TAFFY'.split('');
   }
 
   :global([data-theme="dark"]) .intro-profile {
-    border: 1px solid rgba(0, 229, 255, 0.28);
-    border-radius: 8px;
-    background: linear-gradient(
-      180deg,
-      rgba(8, 14, 23, 0.92),
-      rgba(5, 9, 15, 0.78)
+    border: 0;
+    border-radius: 0;
+    background: radial-gradient(
+      ellipse at 50% 42%,
+      rgba(5, 10, 16, 0.94) 0%,
+      rgba(5, 10, 16, 0.68) 46%,
+      rgba(5, 10, 16, 0) 76%
     );
-    box-shadow: 0 0 40px rgba(0, 229, 255, 0.12),
-      inset 0 0 40px rgba(0, 229, 255, 0.04);
+    box-shadow: none;
   }
 
   :global([data-theme="dark"]) .intro-profile::before {
@@ -366,8 +366,8 @@ const bannerChars = 'TAFFY'.split('');
 
   :global([data-theme="dark"]) .intro-profile::after {
     bottom: 0;
-    left: 0;
-    width: 100%;
+    left: 20%;
+    width: 60%;
     height: 2px;
     background: linear-gradient(
       90deg,

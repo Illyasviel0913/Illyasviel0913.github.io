@@ -12,7 +12,7 @@ const blog = defineCollection({
     description: z.string().max(200),
     pubDate: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),
-    category: z.enum(['技术', '生活']),
+    category: z.enum(['学习笔记', '生活动态']),
     tags: z.array(z.string()).default([]),
     cover: z.string().optional(),
     coverAlt: z.string().optional(),

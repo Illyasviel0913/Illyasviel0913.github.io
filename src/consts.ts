@@ -2,29 +2,30 @@ export const SITE = {
   title: 'Illyasviel',
   name: 'Taffy',
   handle: 'Illyasviel0913',
-  tagline: '技术、学习与生活',
-  description: '记录技术学习、项目笔记与生活片段。',
+  tagline: '学习、生活与记录',
+  description: '记录学习笔记、生活动态与一些片段。',
   author: 'Illyasviel',
   url: import.meta.env.SITE ?? 'https://illyasviel0913.github.io',
   github: 'https://github.com/Illyasviel0913',
   nav: [
     { href: '/', label: '首页' },
-    { href: '/categories/tech/', label: '技术' },
-    { href: '/categories/life/', label: '生活' },
-    { href: '/blog/', label: '文章' },
+    { href: '/categories/study/', label: '学习笔记' },
+    { href: '/categories/life/', label: '生活动态' },
     { href: '/about/', label: '关于' },
   ],
 } as const;
 
 export const CATEGORIES = [
   {
-    name: '技术',
-    slug: 'tech',
-    description: '工程实践、工具使用、踩坑记录。',
+    name: '学习笔记',
+    slug: 'study',
+    short: '学',
+    description: '课程、读书、技术实践与踩坑记录。',
   },
   {
-    name: '生活',
+    name: '生活动态',
     slug: 'life',
-    description: '日常、阅读、行走，以及一些无关紧要的瞬间。',
+    short: '生',
+    description: '日常、阅读、行走，和一些生活片段。',
   },
 ] as const;

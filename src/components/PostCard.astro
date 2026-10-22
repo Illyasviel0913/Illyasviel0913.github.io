@@ -24,7 +24,9 @@ const coverStyle = post.data.cover
   <a class="post-card__link" href={`/blog/${post.id}/`}>
     <div class="post-card__cover" style={coverStyle} aria-hidden="true">
       <span class="post-card__cover-label">{post.data.category}</span>
-      <span class="post-card__cover-char">{post.data.category}</span>
+      <span class="post-card__cover-char">
+        {category?.short ?? post.data.category}
+      </span>
     </div>
 
     <div class="post-card__body">

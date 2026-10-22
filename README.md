@@ -1,6 +1,6 @@
 # Illyasviel
 
-一个记录技术学习与生活片段的个人博客。
+一个记录学习笔记与生活动态的个人博客。
 
 ## 技术栈
 
@@ -26,7 +26,7 @@ npm run build
 npm run preview
 ```
 
-## 写文章
+## 写动态
 
 在 `src/content/blog/` 下新建 Markdown 文件，文件名就是 URL：
 
@@ -38,13 +38,13 @@ Frontmatter 格式：
 
 ```yaml
 ---
-title: 文章标题
+title: 动态标题
 description: 一句话摘要，会显示在列表和 SEO 里
 pubDate: 2026-10-22
 # updatedDate: 2026-10-23  # 可选
-category: 技术              # 技术 / 生活
+category: 学习笔记          # 学习笔记 / 生活动态
 tags: [astro, notes]        # 建议用英文小写，URL 更干净
-# cover: /images/xxx.jpg    # 可选：文章封面图（放到 public/ 下）
+# cover: /images/xxx.jpg    # 可选：动态封面图（放到 public/ 下）
 draft: false                # true 时只在开发环境显示
 ---
 ```
@@ -115,14 +115,14 @@ DNS 生效后，在 Pages 设置里勾选 **Enforce HTTPS**。
 ├── .github/workflows/deploy.yml   # 自动部署
 ├── public/                        # favicon、OG 图、manifest
 ├── src/
-│   ├── components/                # Header、Footer、文章卡片
-│   ├── content/blog/              # 所有文章
+│   ├── components/                # Header、Footer、动态卡片
+│   ├── content/blog/              # 所有动态
 │   ├── layouts/BaseLayout.astro   # 页面骨架、SEO、主题
 │   ├── pages/                     # 路由
 │   ├── styles/global.css          # 全站样式
-│   ├── utils/posts.ts             # 文章查询、日期、阅读时长
+│   ├── utils/posts.ts             # 动态查询、日期、阅读时长
 │   ├── consts.ts                  # 站点信息、导航、分类
-│   └── content.config.ts          # 文章 frontmatter 校验
+│   └── content.config.ts          # 动态 frontmatter 校验
 ├── astro.config.mjs               # site、sitemap、代码高亮
 └── package.json
 ```

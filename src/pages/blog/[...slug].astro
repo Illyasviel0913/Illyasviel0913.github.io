@@ -71,14 +71,12 @@ const jsonLd = {
     >
       <div class="post-hero__bg" style={coverStyle} aria-hidden="true"></div>
       <span class="post-hero__watermark" aria-hidden="true">
-        {post.data.category}
+        {category?.short ?? post.data.category}
       </span>
 
       <div class="post-hero__inner">
         <nav class="post-hero__crumbs" aria-label="面包屑">
           <a href="/">首页</a>
-          <span aria-hidden="true">/</span>
-          <a href="/blog/">文章</a>
           {
             category && (
               <>
@@ -132,7 +130,7 @@ const jsonLd = {
         {
           showOutdated && (
             <div class="post-outdated">
-              <strong>这篇文章已经放了 {daysSinceUpdate} 天。</strong>
+              <strong>这条动态已经放了 {daysSinceUpdate} 天。</strong>
               部分内容可能已经过时，请结合实际情况阅读。
             </div>
           )
@@ -151,7 +149,7 @@ const jsonLd = {
         </footer>
       </article>
 
-      <nav class="container post-pagination" aria-label="文章导航">
+      <nav class="container post-pagination" aria-label="动态导航">
         {
           newer ? (
             <a href={`/blog/${newer.id}/`}>
@@ -161,7 +159,7 @@ const jsonLd = {
           ) : (
             <a href="/blog/">
               <span>回到</span>
-              <strong>全部文章</strong>
+              <strong>全部动态</strong>
             </a>
           )
         }

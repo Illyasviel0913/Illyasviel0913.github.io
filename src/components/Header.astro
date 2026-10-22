@@ -10,12 +10,11 @@ const path = Astro.url.pathname;
 
 function isActive(href: string) {
   if (href === '/') return path === '/';
-  if (href === '/blog/') return path === '/blog/';
-  if (href === '/categories/tech/') {
-    return path.startsWith(href) || category === '技术';
+  if (href === '/categories/study/') {
+    return path.startsWith(href) || category === '学习笔记';
   }
   if (href === '/categories/life/') {
-    return path.startsWith(href) || category === '生活';
+    return path.startsWith(href) || category === '生活动态';
   }
   return path === href || path.startsWith(href);
 }
@@ -30,16 +29,20 @@ function isActive(href: string) {
     </a>
 
     <nav class="nav" aria-label="主导航">
-      {
-        SITE.nav.map((item) => (
-          <a
-            href={item.href}
-            aria-current={isActive(item.href) ? 'page' : undefined}
-          >
-            {item.label}
-          </a>
-        ))
-      }
+      <div class="nav__links" data-nav-links>
+        <span class="nav__indicator" data-nav-indicator aria-hidden="true"></span>
+        {
+          SITE.nav.map((item) => (
+            <a
+              href={item.href}
+              aria-current={isActive(item.href) ? 'page' : undefined}
+            >
+              {item.label}
+            </a>
+          ))
+        }
+      </div>
+
       <button
         class="theme-toggle"
         type="button"
@@ -102,4 +105,58 @@ function isActive(href: string) {
       localStorage.setItem('theme', next);
     } catch {}
   });
+
+  (() => {
+    var links = document.querySelector('[data-nav-links]');
+    if (!links) return;
+
+    var indicator = links.querySelector('[data-nav-indicator]');
+    var items = Array.prototype.slice.call(links.querySelectorAll('a'));
+    var active = links.querySelector('a[aria-current="page"]');
+    if (!indicator) return;
+
+    var moveTo = function (el, animate) {
+      if (!el) {
+        indicator.style.opacity = '0';
+        return;
+      }
+
+      var box = links.getBoundingClientRect();
+      var rect = el.getBoundingClientRect();
+
+      indicator.style.transition = animate ? '' : 'none';
+      indicator.style.opacity = '1';
+      indicator.style.width = rect.width + 'px';
+      indicator.style.transform =
+        'translateX(' + (rect.left - box.left) + 'px)';
+    };
+
+    items.forEach(function (item) {
+      item.addEventListener('mouseenter', function () {
+        moveTo(item, true);
+      });
+      item.addEventListener('focus', function () {
+        moveTo(item, true);
+      });
+      item.addEventListener('click', function () {
+        active = item;
+      });
+    });
+
+    links.addEventListener('mouseleave', function () {
+      moveTo(active, true);
+    });
+
+    links.addEventListener('focusout', function (event) {
+      if (!links.contains(event.relatedTarget)) moveTo(active, true);
+    });
+
+    window.addEventListener('resize', function () {
+      moveTo(active, false);
+    });
+
+    requestAnimationFrame(function () {
+      moveTo(active, false);
+    });
+  })();
 </script>

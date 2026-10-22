@@ -2,7 +2,7 @@
 title: 周末去江边走了走
 description: 不带耳机，不赶时间，走一段路。
 pubDate: 2026-10-12
-category: 生活
+category: 生活动态
 tags: [life, weekend]
 ---
 
