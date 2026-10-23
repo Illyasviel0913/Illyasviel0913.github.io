@@ -1,6 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
-import { categoryMeta, formatDate, formatDateISO, readingTime } from '../utils/posts';
+import { categoryMeta, formatDate, formatDateISO } from '../utils/posts';
 
 interface Props {
   post: CollectionEntry<'blog'>;
@@ -9,7 +9,6 @@ interface Props {
 
 const { post, headingLevel = 3 } = Astro.props;
 const Heading = headingLevel === 2 ? 'h2' : 'h3';
-const minutes = readingTime(post.body);
 const category = categoryMeta(post.data.category);
 const coverStyle = post.data.cover
   ? `background-image: linear-gradient(180deg, rgba(8, 12, 10, 0.08), rgba(8, 12, 10, 0.36)), url(${post.data.cover}); background-size: cover; background-position: center;`
@@ -36,8 +35,6 @@ const coverStyle = post.data.cover
         <time datetime={formatDateISO(post.data.pubDate)}>
           {formatDate(post.data.pubDate)}
         </time>
-        <span class="dot" aria-hidden="true">·</span>
-        <span>{minutes} 分钟阅读</span>
       </div>
 
       <Heading class="post-card__title">{post.data.title}</Heading>
